@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rams (0.1.6)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rams
+
+BUNDLED WITH
+   1.14.3

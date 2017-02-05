@@ -1,0 +1,32 @@
+\chapter{Considering the world algebraically}
+
+This is a book about building models. To that end, it is different from other books about decision modeling. Its focus is almost entirely on the construction and use of models instead of the mathematical business of solving them. While the latter endeavor is a rigid and difficult field of scientific inquiry, the former is more of an art form, with sometimes less well-defined ideas of right and wrong. It is thus, at least in our belief, a bit more fun.
+
+But perhaps we are already getting ahead of ourselves. Let us step back and talk about models in more general terms. As far as we are concerned, a model is an abstraction of reality that we use to understand and make decisions about the world. Our world is an increasingly complex place, and models are often the only tools we have to comprehend it. If done properly, a fairly simple model will allow one to take reasonable actions in the face of great uncertainly or incomprehensible complexity. Done poorly, even the most complete model will lead one far astray, a fact there are always fresh examples to support.
+
+There are many different kinds of models. An architect's rendering models proposed buildings and their surrounding phyiscal world. It attempts to show how a structure might fit into an existing space, among other aims. A statistical model may try to show how one sample differs from another, for instance how those who take a drug of iterest differ in health from those who do not. Or it may predict the likelihood of something occuring, such as rain on a given day of the week.
+
+We shall focus on certain types of models which can be described algebraically. That is, we can fully describe them using variables, equations and inequalities, and an objective. While that may sound rather specific, we'll find that it is actually quite general and that a great number of problems can be solved using this form.
+
+One of the advantages of working within general purpose modeling frameworks is that it forces us to be precise. This allows us to use a rich set of software tools based on well developed, advanced branches of mathematics. It also allows us to focus on the structure of our problems rather than their implementation. We'll find that a solid understanding of such techniques fits well with other types of analysis and greatly broadens our abilities as data scientists.
+
+
+\section{Representing decisions as variables}
+
+Before we design and build models to represent the systems around us, we must first discuss the components with which we plan to construct those models. This is akin to opening up and examining one's toolbox before beginning a carpentry project. Let's take a minute to make sure our hammer and screwdriver are in working order first.
+
+We wish to speak in the language of algebraic models. To that end we will learn its various parts, or components, and their intended functions. These parts and rules define a simple language and almost trivial grammar, but they can be combined in limitless, sometimes unexpected ways.
+
+As with any field of mathematics, the first and most fundamental component of any mathematical model is the variable. Many texts call this a "decision variable." In certain ways that name is appropriate. A decision variable represents the realm of possibilities for a single action we can take in some system. Variables can represent anything to which we assign a quantity: shares of a stock to purchase, teapoons of salt to use in a recipe, or whether or not to travel along a particular road. Or they might represent something more abstract, such as the amount of error between an observed and fitted value in a statistical inference.
+
+Most of the time, we combine many different variables together into a single problem. For instance, say we are writing a schedule for our time next Monday. We want to represent the hours we plan to spend on various activities. To start with, we choose three broad categories: sleep, work, and leisure. We represent each of them with the letter $x$ and a subscript denoting which activity that particular $x$ refers to.
+
+$$
+\begin{aligned}
+	x_s &= \text{hours spent sleeping} \\
+	x_w &= \text{hours spent working} \\
+	x_l &= \text{hours spent lollygagging}
+\end{aligned}
+$$
+
+Thus we have three decision variables, each in units of hours. If $x_s = 8$ then we plan to spend eight hours sleeping. The activities these variables represent belong to the same set. That is, they are all things we can spend time doing.
