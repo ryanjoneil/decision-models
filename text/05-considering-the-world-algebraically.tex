@@ -30,3 +30,118 @@ $$
 $$
 
 Thus we have three decision variables, each in units of hours. If $x_s = 8$ then we plan to spend eight hours sleeping. The activities these variables represent belong to the same set. That is, they are all things we can spend time doing.
+
+\subsection{Vector forms of related variables}
+
+Since $s$, $w$, and $l$ are the only activities in our set, we may opt to simplify our notation. Instead of individual variables, we can also refer to the vector $\mathbf{x}$, which contains $x_s$, $x_w$, and $x_l$. The notation below shows $\mathbf{x}$ as a column vector with three rows.
+
+$$
+\mathbf{x} = \left(
+	\begin{array}{c}
+		x_s \\ 
+		x_w \\ 
+		x_l
+	\end{array}
+\right)
+$$
+
+This is particularly convenient when we need to represent an arbitrary number of decisions. For instance, we may build a model using the three activities given above, and then extend it to include any activity our life coach enters into a database. Our model will not know a priori that our coach wants us to spend time meditating, crafting, and sweating through hot yoga classes. But we can still capture the structure of our model without knowing what the individual decisions will be. We simply state that there will be some positive integer $n$ activities to make decisions about, and that our $\mathbf{x}$ vector contains them all.
+
+$$
+\mathbf{x} = \begin{pmatrix}
+		x_s \\ 
+		x_w \\ 
+		\vdots \\
+		x_l
+	\end{pmatrix}
+$$
+
+Of course, this notation becomes a bit more tidy if we use the transpose of $\mathbf{x}$. The following representation is equivalent.
+
+$$
+\mathbf{x} = \begin{pmatrix}
+	x_s & x_w & \dots & x_l
+\end{pmatrix}^\intercal
+$$
+
+The tranpose of a vector $\mathbf{x}$ is notated $\mathbf{x}^\intercal$. Transposing a vector changes it from being a column vector to a row vector or vice versa. In this book we be dealing exclusively with column vectors, unless otherwise stated. We will often show them as transposed row vectors for the simple purpose of saving space.
+
+
+\section{Setting limits on activities}
+
+Perhaps the first question we should ask ourselves about any decision we can make is: what values are reasonable for that decision, and what values are unreasonable? Often, decisions variables inhabit a range of possible values. We would like to constrain our variables so that they can only take on values within their assigned ranges. We define these ranges using upper bounds and lower bounds.
+
+In the case of our variables $x_s$, $x_w$, and $x_l$, a couple obvious bounds come to mind. Given that these are defined as the number of hours we intend to spend sleeping, working, and at leisure for one day, it is obvious that none of these can exceed 24. This gives us an easy upper bound on the decision variables.
+
+$$x_s,\ x_w,\ x_l \le 24$$
+
+Perhaps less obvious is their lower bound. For this, we consider that there isn't much meaning in setting any of our variables to a value less than zero. Saying we're going to sleep for -4 hours would at best get us a few funny looks. Since it isn't something we know how to accomplish, we'll go ahead and require that all our variables be nonnegative. Now we have both upper and lower bounds.
+
+$$0 \le x_s,\ x_w,\ x_l \le 24$$
+
+Or we can overload $\le$ to mean componentwise inequality, and express the same thing more succinctly.
+
+$$0 \le \mathbf{x} \le 24$$
+
+At first glance, nonnegativity may appear an odd requirement for decision variables. But we'll see that many models don't much make sense without it. Often, we are modeling actions that can be taken, and taking action maps quite naturally to the realm of nonnegative numbers. Doing something for a negative amount of time has as little meaning as producing a negative number of widgets or negatively sending a train along some route. These are actions that cannot reasonably be taken.
+
+We will see later that this is not always the case. However, such models tend to involve tasks such as data fitting and do not directly relate to decision making.
+
+Returning to our schedule variables, we may decide that we are unwilling to sleep less than seven hours a night. Further, our manager tells us we'll be fired if we work less than ten hours. While it is entirely possible that we may sleep for only six hours, or work for nine, we are rejecting those possibilities up front. Any set of values for our decision variables where $x_s.\le 7$  or $x_w \le 10$ will be deemed infeasible and not considered. The same can be said when any of the variables are less than zero or greater than 24.
+
+$$
+\begin{aligned}
+	7  \le x_s \le 24 \\
+	10 \le x_w \le 24 \\
+	0  \le x_l \le 24
+\end{aligned}
+$$
+
+These variable bounds can also be described using vector notation, as shown below.
+
+$$
+\begin{pmatrix}
+	7 & 10 & 0
+\end{pmatrix}^\intercal \le \mathbf{x} \le 24
+$$
+
+It is important to note that we will consider only inequalities of the form $\le$ and $\ge$, not $<$ and $>$. While this is mathematically convenient, it more importantly removes the difficulty of dealing with arbitrary closeness. For instance, if we bound $x_s$ from below by requiring $x_s > 7$, then for any value of $x_s$, there is always a value closer its lower bound. The bound has more meaning to us if we use the form $x_s \ge 7$.
+
+
+\section{Modeling relationships of activities}
+
+The requirements of feasibility extend beyond merely satisfying our variables' bounds. Any variables that consume the same resources interact with each other and can combine to form infeasibility. In our Monday scheduling example, we have one resource to allocate: time. All three of our variables consume time, and to fully describe the set of possible schedules we must include this interaction in our model.
+
+To illustrate, say we arbitrarily choose to spend ten hours sleeping, ten hours working, and the remaining four hours in leisurely pursuits. In this schedule, our variables take the values $x_s = 10$, $x_w = 10$, and $x_l = 4$. We try this schedule and decide that it simply doesn't give us enough leisure time, and that we'd rather set  to a higher value.
+
+We now face a dilemma. We cannot simply increase the amount of time spent on leisure, as that would mean allocating more than 24 hours of activity. Instead, we must choose between taking time away from one of the two other activities: sleep or work. We are bound by this resource of time, and changing the value of a variable may impact other variables that use time. Writing this algebraically adds the following contraint to our model.
+
+$$x_s + x_w + x_l = 24$$
+
+If we are have an unknown or large number of activities, it may be more convenient to express this contraint as a summation.
+
+$$\sum_{i \in \{s, w, l\}} x_i = 24$$
+
+We may also encounter use of the dot product vector notation to describe constraints of this form.
+
+$$\mathbf{1}^\intercal \mathbf{x} = 24$$
+
+$\mathbf{1}$ is a $1 \times n$ column vector of ones. $\mathbf{1}^\intercal \mathbf{x}$ is the dot product of this vector and $\mathbf{x}$, which amounts to adding the components of $\mathbf{x}$. All three notations given above are equivalent.
+
+
+\section{Choosing between potential decisions}
+
+We will call any assignment of values to our $\mathbf{x}$ vector that satisfies both our constraints and variable bounds a feasible solution, or just a solution for short. A bit of experimentation will show that there are any number of potential solutions to this problem. We might set $\mathbf{x} = \begin{pmatrix} 8 & 10 & 6\end{pmatrix}^\intercal$ or perhaps $\mathbf{x} = \begin{pmatrix} 7 & 10.5 & 6.5\end{pmatrix}^\intercal$. This leads us to the question of which solution is best. That is, given all feasible solutions, which one do we believe is optimal?
+
+To make any sort of rational choice between our myriad options, we must quantify the value of our activities. Let's say that we have a rough idea how happy these activities make us in relation to each other, and that our goal is maximize our happiness. We choose the values 1.5, 1, and 2 for the happiness an hour of sleep, work, and leisure gives us. Note that we aren't putting any units on these numbers, and that's OK for now. In future examples we'll use units such as currency or time, but that isn't necessary all the time.
+
+We can use these numbers to create an objective function. In this case, our objective is to maximize our happiness over the set of all feasible schedules. That is, if we were to evaluate every possible schedule, we would like to make note of the one that makes us happiest. We write our objective as a simple function preceded by maxmax to indicate we are maximizing the objective. By convention, we assign the value of our objective to a new variable called $z$.
+
+$$\text{max}\ z = 1.5 x_s + x_w + 2 x_l$$
+
+
+Maximizing is not our only option. We could also minimize some objective, such as the cost of a schedule or the likelihood of being fired. Minimizing the negative of a maximization yields the same value, and vice versa. That is, the following is equivalent to our objective above.
+
+$$\text{min}\ w = -1.5 x_s - x_w - 2 x_l$$
+
+Again, the choice of $w$ as our objective variable is by convention. Deciding between writing an objective function as a maximization or minimization is mostly a matter of what seems natural for a particular model. We often want to maximize results we see as positive, such as profits, and minimize things that are negative, such as costs.
